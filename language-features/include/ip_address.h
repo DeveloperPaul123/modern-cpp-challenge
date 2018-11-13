@@ -82,7 +82,7 @@ namespace ip
         reference operator[](const int &index) noexcept(false);
 
         /**
-         * @brief Const versino of the access operator.
+         * @brief Const version of the access operator.
          */
         value_type operator[](const int &index) const noexcept(false);
 
