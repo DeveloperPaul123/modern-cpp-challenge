@@ -28,12 +28,9 @@ namespace ip
 
 #pragma region Type definitions
         using value_type = uint8_t;
+		using storage_type = std::array<value_type, 4>;
         using reference = value_type & ;
         using pointer = value_type * ;
-        using iterator = std::array<value_type, 4>::iterator;
-        using const_iterator = std::array<value_type, 4>::const_iterator;
-        using reverse_iterator = std::array<value_type, 4>::reverse_iterator;
-        using const_reverse_iterator = std::array<value_type, 4>::const_reverse_iterator;
         using size_type = std::array<value_type, 4>::size_type;
 #pragma endregion
 
@@ -100,13 +97,8 @@ namespace ip
          * @brief Prefix decrement operator.
          */
         ::ip::address& operator--(int);
-
-        iterator begin();
-        iterator end();
-        const_iterator begin() const;
-        const_iterator end() const;
     private:
-        std::array<value_type, 4> data_;
+        storage_type data_;
     };
 
     bool operator<(const ip::address &first, const ip::address &second);

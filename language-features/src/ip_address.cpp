@@ -112,16 +112,6 @@ void ip::address::operator--()
     return result;
 }
 
-ip::address::iterator ip::address::begin()
-{
-    return data_.begin();
-}
-
-ip::address::const_iterator ip::address::end() const
-{
-    return data_.end();
-}
-
 bool ip::operator<(const ip::address& first, const ip::address& second)
 {
 	return to_uint32(first) < to_uint32(second);
@@ -132,20 +122,12 @@ bool ip::operator==(const ip::address& first, const ip::address& second)
     return to_uint32(first) == to_uint32(second);
 }
 
-ip::address::const_iterator ip::address::begin() const
-{
-    return data_.begin();
-}
-
-ip::address::iterator ip::address::end()
-{
-    return data_.end();
-}
-
 std::ostream& ip::operator<<(std::ostream& output, const ip::address& address)
 {
-    std::copy(address.begin(), address.end()-1, 
-        std::ostream_iterator<short>(output, "."));
+    for(auto i = 0; i < 3; i++)
+    {
+		output << +address[i] << ".";
+    }
     output << +address[3];
     return output;
 }
