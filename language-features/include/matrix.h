@@ -9,7 +9,7 @@ namespace mcc
     {
     public:
 
-#pragma regiond Type definitions
+#pragma region Type definitions
         using value_type = T;
         using size_type = std::size_t;
         using container_type = std::array<value_type, M*N>;
