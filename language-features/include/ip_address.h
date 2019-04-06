@@ -71,11 +71,6 @@ namespace ip
         explicit address(const uint32_t &value);
 
         /**
-         * @brief Implicit conversion to an unsigned 32 bit integer.
-         */
-        uint32_t operator()() const;
-
-        /**
          * @brief Access operator.
          * @param index the index to access. 
          */
@@ -119,4 +114,5 @@ namespace ip
     std::ostream& operator<<(std::ostream& output, const ip::address &address);
     address from_string(const std::string &view);
     std::string to_string(const address& address);
+	uint32_t to_uint32(const address& address);
 }

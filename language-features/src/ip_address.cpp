@@ -58,12 +58,6 @@ ip::address::address(const uint32_t& value)
     data_[3] = value & 0xFF;
 }
 
-uint32_t ip::address::operator()() const
-{
-    const uint32_t value = data_[0] << 24 | data_[1] << 16 | data_[2] << 8 | data_[3];
-    return value;
-}
-
 ip::address::reference ip::address::operator[](const int& index)
 {
     return data_.at(index);
@@ -130,12 +124,12 @@ ip::address::const_iterator ip::address::end() const
 
 bool ip::operator<(const ip::address& first, const ip::address& second)
 {
-    return (uint32_t)first() < (uint32_t)second();
+	return to_uint32(first) < to_uint32(second);
 }
 
 bool ip::operator==(const ip::address& first, const ip::address& second)
 {
-    return (uint32_t)first() == (uint32_t) second();
+    return to_uint32(first) == to_uint32(second);
 }
 
 ip::address::const_iterator ip::address::begin() const
@@ -177,6 +171,12 @@ std::string ip::to_string(const address& address)
     std::ostringstream string_stream;
     string_stream << address;
     return string_stream.str();
+}
+
+uint32_t ip::to_uint32(const address& address)
+{
+	const uint32_t value = address[0] << 24 | address[1] << 16 | address[2] << 8 | address[3];
+	return value;
 }
 
 
