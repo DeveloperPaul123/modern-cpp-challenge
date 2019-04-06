@@ -81,24 +81,24 @@ namespace ip
         /**
          * @brief Prefix increment operator.
          */
-        void operator++();
+        address& operator++();
 
         /**
          * @brief Postfix increment operator.
          */
-        ::ip::address& operator++(int);
+        address operator++(int);
 
         /**
          * @brief Prefix decrement operator.
          */
-        void operator--();
+        address& operator--();
 
         /**
-         * @brief Prefix decrement operator.
+         * @brief Postfix decrement operator.
          */
-        ::ip::address& operator--(int);
+        address operator--(int);
     private:
-        storage_type data_;
+        storage_type data_{};
     };
 
     bool operator<(const ip::address &first, const ip::address &second);

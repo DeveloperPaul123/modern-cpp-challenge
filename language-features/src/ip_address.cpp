@@ -68,46 +68,32 @@ ip::address::value_type ip::address::operator[](const int& index) const
     return data_.at(index);
 }
 
-void ip::address::operator++()
+ip::address& ip::address::operator++()
 {
-    auto location = std::find_if(data_.rbegin(), data_.rend(), [](const unsigned char& data)
-    {
-        return data < 255;
-    });
-
-    if(location != std::rend(data_))
-    {
-        const auto r_index = std::distance(data_.rbegin(), location);
-        auto index = 4 - r_index - 1;
-        data_[index]++;
-    }
+	auto value = to_uint32(*this);
+	++value;                     
+	(*this) = address(value);
+	return *this;
 }
 
-::ip::address& ip::address::operator++(int)
+::ip::address ip::address::operator++(int)
 {
-    auto result(*this);
+	const auto result(*this);
     ++(*this);
     return result;
 }
 
-void ip::address::operator--()
+ip::address& ip::address::operator--()
 {
-    auto location = std::find_if(data_.rbegin(), data_.rend(), [](const unsigned char& data)
-    {
-        return data < 255;
-    });
-
-    if (location != std::rend(data_))
-    {
-        const auto r_index = std::distance(data_.rbegin(), location);
-        auto index = 4 - r_index - 1;
-        data_[index]--;
-    }
+	auto value = to_uint32(*this); 
+	--value;                     
+	(*this) = address(value);
+	return *this;
 }
 
-::ip::address& ip::address::operator--(int)
+::ip::address ip::address::operator--(int)
 {
-    auto result(*this);
+	const auto result(*this);
     --(*this);
     return result;
 }
@@ -141,10 +127,10 @@ ip::address ip::from_string(const std::string &view)
     }
 
     return {
-        (ip::address::value_type)std::stoi(parts[0]),
-        (ip::address::value_type)std::stoi(parts[1]),
-        (ip::address::value_type)std::stoi(parts[2]),
-        (ip::address::value_type)std::stoi(parts[3])
+        ip::address::value_type(std::stoi(parts[0])),
+        ip::address::value_type(std::stoi(parts[1])),
+        ip::address::value_type(std::stoi(parts[2])),
+        ip::address::value_type(std::stoi(parts[3]))
     };
 }
 

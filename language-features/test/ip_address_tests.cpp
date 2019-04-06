@@ -8,13 +8,10 @@
  */
 TEST(IpAddressTests, Increment)
 {
-    ip::address ipv4 = { 127, 0, 0, 1 };
-
-    for(int i = 0; i < 255; i++) ipv4++;
-
-    std::cout << ipv4 << std::endl;
-    ASSERT_EQ(ipv4[3], 255);
-    ASSERT_EQ(ipv4[2], 1);
+    ip::address ipv4 = { 0, 0, 0, 255 };
+	++ipv4;
+	ASSERT_EQ(ipv4[3], 0);
+	ASSERT_EQ(ipv4[2], 1);
 }
 
 /**
@@ -63,7 +60,7 @@ TEST(IpAddressTests, ToFromString)
 TEST(IpAddressTests, ToFromLong)
 {
     ip::address addr = { 192, 1, 1, 11 };
-    uint32_t value = addr();
+    auto value = ip::to_uint32(addr);
     ASSERT_EQ(value, 3221291275);
 
     ip::address test_addr(value);
