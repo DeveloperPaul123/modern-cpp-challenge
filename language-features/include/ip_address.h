@@ -46,8 +46,8 @@ namespace ip
          * ip::address addr(127, 0, 0, 1);
          * @endcode
          */
-        address(const value_type& first, const value_type &second,
-            const value_type &third, const value_type& fourth);
+        address(value_type first, value_type second,
+            value_type third, value_type fourth);
 
         /**
          * @brief Create an IP address representaiton from an
@@ -65,7 +65,7 @@ namespace ip
          * unsigned 32 bit integer.
          * @param value the integer representation of an IP address.
          */
-        explicit address(const uint32_t &value);
+        explicit address(uint32_t value);
 
         /**
          * @brief Access operator.

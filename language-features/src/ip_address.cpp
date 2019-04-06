@@ -37,7 +37,7 @@ char const* ip::invalid_format_exception::what() const
     return oss.str().c_str();
 }
 
-ip::address::address(const value_type & first, const value_type & second, const value_type & third, const value_type & fourth)
+ip::address::address(value_type const first, value_type const second, value_type const third, value_type const fourth)
 {
     data_[0] = first;
     data_[1] = second;
@@ -50,7 +50,7 @@ ip::address::address(const std::array<unsigned char, 4>& data)
     data_ = data;
 }
 
-ip::address::address(const uint32_t& value)
+ip::address::address(uint32_t const value)
 {
     data_[0] = value >> 24 & 0xFF;
     data_[1] = value >> 16 & 0xFF;
