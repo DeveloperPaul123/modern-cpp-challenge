@@ -25,12 +25,12 @@ std::vector<std::string> split(const std::string &s, char delim) {
 
 #pragma endregion
 
-ip::invalid_format_exception::invalid_format_exception(const std::string& invalid_format)
+ip::invalid_format_exception::invalid_format_exception(const std::string& invalid_format) noexcept
     : invalid_format_(invalid_format)
 {
 }
 
-char const* ip::invalid_format_exception::what() const
+char const* ip::invalid_format_exception::what() const noexcept
 {
     std::ostringstream oss;
     oss << "Invalid IP address format: " << invalid_format_;

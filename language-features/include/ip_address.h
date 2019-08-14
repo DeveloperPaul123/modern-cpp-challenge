@@ -15,8 +15,9 @@ namespace ip
     {
         std::string invalid_format_;
     public:
-        invalid_format_exception(const std::string &invalid_format);
-        char const* what() const override;
+        invalid_format_exception(const std::string &invalid_format) noexcept;
+        virtual ~invalid_format_exception() noexcept;
+        char const* what() const noexcept override;
     };
 
     /**

@@ -5,7 +5,7 @@ project(modern-cpp-challenge)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 # project options
 option(MCC_BUILD_TESTS "Turn on to build unit tests." ON)
