@@ -205,9 +205,8 @@ namespace mcc
 	template<typename T, std::size_t M, std::size_t N>
 	template<class Expression>
 	inline matrix<T, M, N>::matrix(const Expression& expr)
-		:  rows_(M), columns_(N)
+		: rows_(M), columns_(N), data_{}
 	{
-		assert(size_ == expr.size());
 		for (size_type i = 0; i < size_; i++)
 		{
 			data_[i] = expr[i];
@@ -218,8 +217,6 @@ namespace mcc
 	template<typename Expression>
 	inline auto matrix<T, M, N>::operator=(const Expression& expression)
 	{
-		static_assert(expression.size() == size_, "Expression size must match size of matrix.");
-
 		for (auto i = 0; i < size_; ++i)
 		{
 			data_[i] = expression[i];

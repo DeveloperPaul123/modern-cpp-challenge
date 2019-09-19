@@ -28,29 +28,11 @@ namespace mcc
 	public:
 		using index = std::size_t;
 
-		expression(callable functor, const operands&... ops)
-			: f_(functor), ops_(ops...)
-		{
-
-		}
-
-		std::size_t size() const
-		{
-			if (std::tuple_size<decltype(ops_)>::value > 0)
-			{
-				return std::get<0>(ops_).size();
-			}
-			return 0;
-		}
-
+		expression(callable functor, const operands&... ops): f_(functor), ops_(ops...){}
 		auto operator[](index const& i) const
 		{
 			auto const call_at_index =
-				[this, i](operands const& ... ops)
-			{
-				return f_(subscript(ops, i)...);
-			};
-	
+				[this, i](operands const& ... ops){ return f_(subscript(ops, i)...);	};
 			return std::apply(call_at_index, ops_);
 		}
 	};
