@@ -1,10 +1,12 @@
 #pragma once
 
 #include <array>
+#include <cassert>
+#include "expressions.h"
 
 namespace mcc
 {
-    template<typename T, std::size_t M, std::size_t N>
+	template<typename T, std::size_t M, std::size_t N>
     class matrix
     {
     public:
@@ -26,7 +28,14 @@ namespace mcc
         explicit matrix(const T& value);
         explicit matrix(std::array<value_type, M*N> &data);
         matrix(std::initializer_list<value_type> values);
-        value_type operator[](const size_type & index);
+	
+		template<class Expression>
+		matrix(const Expression& expr);
+
+		value_type operator[](const size_type& index) const;
+
+		template<typename Expression>
+		auto operator=(const Expression& expression);
 
         T at(const std::size_t &row, const std::size_t &col);
         T* data();
@@ -34,6 +43,7 @@ namespace mcc
         reference operator()(const std::size_t& row, const std::size_t &col);
         size_type columns() const;
         size_type rows() const;
+		constexpr size_type size() const;
 
         iterator begin(); 
         iterator end();
@@ -88,7 +98,7 @@ namespace mcc
     }
 
     template <typename T, std::size_t M, std::size_t N>
-    typename matrix<T, M, N>::value_type matrix<T, M, N>::operator[](const size_type& index)
+    typename matrix<T, M, N>::value_type matrix<T, M, N>::operator[](const size_type& index) const
     {
         return data_[index];
     }
@@ -130,6 +140,12 @@ namespace mcc
     {
         return rows_;
     }
+
+	template <typename T, std::size_t M, std::size_t N>
+	constexpr typename matrix<T, M, N>::size_type matrix<T, M, N>::size() const
+	{
+		return size_;
+	}
 
     template <typename T, std::size_t M, std::size_t N>
     typename matrix<T, M, N>::iterator matrix<T, M, N>::begin()
@@ -185,4 +201,55 @@ namespace mcc
     {
         std::fill(data_.begin(), data_.end(), value);
     }
+
+	template<typename T, std::size_t M, std::size_t N>
+	template<class Expression>
+	inline matrix<T, M, N>::matrix(const Expression& expr)
+		:  rows_(M), columns_(N)
+	{
+		assert(size_ == expr.size());
+		for (size_type i = 0; i < size_; i++)
+		{
+			data_[i] = expr[i];
+		}
+	}
+
+	template<typename T, std::size_t M, std::size_t N>
+	template<typename Expression>
+	inline auto matrix<T, M, N>::operator=(const Expression& expression)
+	{
+		static_assert(expression.size() == size_, "Expression size must match size of matrix.");
+
+		for (auto i = 0; i < size_; ++i)
+		{
+			data_[i] = expression[i];
+		}
+
+		return *this;
+	}
+
+	template<class T>
+	struct is_matrix : std::false_type {};
+
+	template<class T, std::size_t M, std::size_t N>
+	struct is_matrix<matrix<T, M, N>> : std::true_type {};
+
+	template<class LHS, class RHS>
+	auto operator+(LHS const& lhs, RHS const& rhs)
+	{
+		return expression(
+			[](auto a, auto b) {return a + b; },
+				lhs,
+				rhs);
+	}
+
+	template<class LHS, class RHS>
+	auto operator-(LHS const& lhs, RHS const& rhs)
+	{
+		return expression(
+			[](auto a, auto b) {return a - b; },
+			lhs,
+			rhs
+		);
+	}
 }
